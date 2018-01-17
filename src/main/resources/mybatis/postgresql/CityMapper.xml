@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myj.study.mapper.postgresql.CityMapper" >
+
+    <!--  描述如何将结果集映射到Java对象  -->
+    <resultMap id="userMap" type="com.myj.study.entity.City">
+        <result property="id" column="id" javaType="Integer" jdbcType="NUMERIC"></result>
+        <result property="cityId" column="city_id" javaType="Integer" jdbcType="VARCHAR"></result>
+        <result property="cityName" column="city_name" javaType="String" jdbcType="NUMERIC"></result>
+        <result property="cityPy" column="city_py" javaType="String" jdbcType="NUMERIC"></result>
+        <result property="provId" column="prov_id" javaType="Integer" jdbcType="VARCHAR"></result>
+        <result property="cityState" column="city_state" javaType="String" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <insert id="save" parameterType="com.myj.study.entity.City">
+        insert into t_test_city( city_id , city_name , city_py , prov_id , city_state )
+        values(#{cityId,jdbcType=NUMERIC} , #{cityName,jdbcType=VARCHAR} ,
+        #{cityPy,jdbcType=VARCHAR} , #{provId,jdbcType=NUMERIC} , #{cityState,jdbcType=VARCHAR} )
+    </insert>
+
+    <update id="updateById" parameterType="com.myj.study.entity.City">
+        update t_test_city set
+        city_id = #{cityId,jdbcType=NUMERIC} ,
+        city_name = #{cityName,jdbcType=VARCHAR} ,
+        city_py = #{cityPy,jdbcType=VARCHAR},
+        prov_id = #{provId,jdbcType=NUMERIC} ,
+        city_state = #{cityState,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="deleteById">
+        delete from t_test_city where id = #{id,jdbcType=NUMERIC}
+    </delete>
+
+    <select id="selectById" resultMap="userMap">
+        select * from t_test_city where id = #{id,jdbcType=NUMERIC}
+    </select>
+
+    <select id="queryAll" resultMap="userMap">
+        select * from t_test_city
+    </select>
+
+    <select id="queryAllMap" resultType="java.util.Map"  parameterType="java.util.HashMap">
+        select * from t_test_city
+        WHERE 1=1
+        <if test="idGt != null and idGt !='' ">
+          AND  id > ${idGt}
+        </if>
+    </select>
+    
+    <sql id="queryAllMap2">
+        select * from t_test_city
+        WHERE 1=1
+        <if test="idGt != null and idGt !='' ">
+            AND  id > ${idGt}
+        </if>
+    </sql>
+
+</mapper>
